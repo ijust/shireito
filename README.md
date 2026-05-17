@@ -34,6 +34,17 @@ Then, in each project where you want to use shireito, run:
 
 The setup skill detects the project root, asks where you want worktrees and which permission strategy you prefer, and merges the result into `.claude/settings.json`. It does **not** touch your other settings.
 
+## Update
+
+```
+/plugin marketplace update shireito   # refresh the marketplace catalog
+/plugin update shireito               # upgrade the installed plugin
+```
+
+Both steps are needed: `marketplace update` alone only refreshes the index, and `plugin update` alone can only install what the index already knows about.
+
+If you're developing this plugin locally (loaded via `--plugin-dir`), use `/reload-plugins` instead.
+
 ## Quick start
 
 After install + setup, ask Claude in the project:

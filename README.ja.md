@@ -34,6 +34,17 @@ Claude Code 内で：
 
 setup スキルは、プロジェクトのルートを検出し、worktree の置き場所と permission 戦略をユーザーに確認した上で、`.claude/settings.json` にマージで書き込みます。**既存の他の設定は触りません**。
 
+## アップデート
+
+```
+/plugin marketplace update shireito   # marketplace カタログを再取得
+/plugin update shireito               # 取り込んだ最新版に入れ替える
+```
+
+両方が必要です。`marketplace update` だけだと index 更新のみで本体は古いまま、`plugin update` だけだと index 側が古くて最新版を認識できません。
+
+このプラグインをローカルで開発している場合（`--plugin-dir` で読み込み中）は `/reload-plugins` を使ってください。
+
 ## クイックスタート
 
 インストール＋セットアップが済んだら、プロジェクト内で Claude に：
