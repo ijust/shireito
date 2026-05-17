@@ -60,29 +60,38 @@ The main Claude Code session is the **commander** (司令塔). It delegates focu
 
 ## Write-capable subagents need worktree isolation
 
-**Rule**: any subagent that uses Edit or Write (`implementer`, `debugger`, custom write-capable agents) must run in an **isolated git worktree**. This applies whether you run one or many in parallel.
+**Rule**: any subagent that uses Edit or Write (`implementer`, `debugger`, custom write-capable agents) should run in an **isolated git worktree**. This applies whether you run one or many in parallel.
 
 Why:
 - The subagent's `cwd` sandbox blocks writes outside its own working tree. If the subagent's cwd differs from the parent's cwd, it cannot write into the parent's directory (silent stop with "Edit/Write denied").
 - Even a single subagent can collide with the main session editing the same file.
 - A worktree commit → fetch / merge / rebase keeps subagent work atomic.
 
-Commander workflow:
+Two ways to do it. Pick what fits the work.
+
+### (A) `isolation: "worktree"` parameter
+
+The shortest path. The harness creates the worktree and cleans it up afterward.
+
+```
+Agent(implementer, isolation: "worktree", prompt: "Implement feature A...")
+Agent(implementer, isolation: "worktree", prompt: "Implement feature B...")
+Agent(code-reviewer, prompt: "Review the diffs")   # read-only, no worktree needed
+```
+
+### (B) Manual worktree
+
+Useful when you want to keep the worktree around for inspection or have explicit control over the integration step.
 
 1. Create the worktree ahead of time: `git worktree add .worktrees/<name> -b <branch> HEAD`
 2. Pass the **absolute path** to the worktree in the subagent prompt (e.g., `/abs/path/to/repo/.worktrees/feature-a`)
 3. Subagent edits + commits + (optionally) pushes inside the worktree
 4. Commander fetches / merges / rebases to integrate
 
-Example:
-
 ```
 Agent(implementer, cwd: .worktrees/feature-a, prompt: "Implement feature A...")
 Agent(implementer, cwd: .worktrees/feature-b, prompt: "Implement feature B...")
-Agent(code-reviewer, prompt: "Review the diffs")   # read-only, no worktree needed
 ```
-
-The `isolation: "worktree"` parameter on `Agent` exists, but its behavior in the harness has been inconsistent. **Prefer manual worktree creation + passing the absolute path explicitly.**
 
 Commander reviews changes in the worktree before integrating into the main branch. Never auto-merge.
 

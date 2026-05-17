@@ -60,7 +60,7 @@ If you're not sure when to use which subagent, run `/shireito:orchestrate` to lo
 [Main Claude Code session: commander (司令塔)]
    ├─ Agent("explorer", "...")     ← parallel-safe (read-only)
    ├─ Agent("code-analyst", "...") ← parallel-safe (read-only)
-   └─ Agent("implementer", ".worktrees/feat-a", "...")  ← sequential or isolated parallel
+   └─ Agent("implementer", isolation: "worktree", "...")  ← sequential or isolated parallel
        ↓
    commander aggregates and reports to the human
 ```
