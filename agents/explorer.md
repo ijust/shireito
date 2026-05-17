@@ -11,7 +11,7 @@ When invoked, systematically:
 1. Understand what to explore or find
 2. Map project structure (directory tree, key files)
 3. Locate files matching criteria
-4. Identify patterns or connections
+4. Identify obvious file/module connections
 5. Report findings concisely
 
 Exploration guidelines:
@@ -21,10 +21,4 @@ Exploration guidelines:
 - Navigate: use tree structure to understand
 - Connect: show relationships between modules
 
-For architectural patterns, identify:
-- Layered structure
-- Main packages/modules
-- Key interfaces
-- Data flow
-
-Keep reports focused. Extensive analysis belongs to code-analyst.
+Keep reports focused. Extensive analysis (architectural pattern evaluation, design judgments) belongs to code-analyst.

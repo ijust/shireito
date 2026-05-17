@@ -1,6 +1,6 @@
 {
   "name": "shireito",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Shireito (司令塔) — commander pattern for Claude Code. Bundles 5 specialized subagents (explorer, code-analyst, code-reviewer, implementer, debugger) plus orchestration rules and interactive permission setup.",
   "author": {
     "name": "ijust",

@@ -31,14 +31,6 @@ The main Claude Code session is the **commander** (司令塔). It delegates focu
 
 `explorer` is haiku for speed and cost on broad searches. The other four are sonnet for reasoning depth. `code-reviewer` deliberately lacks Edit/Write so it can only *suggest* fixes — never apply them silently.
 
-## Commander responsibilities
-
-- Decompose the user's request into tasks
-- Pick the right subagent for each task (`description`-driven auto-delegation works once descriptions are tight)
-- Decide parallel vs sequential
-- Aggregate subagent results
-- Report to the user
-
 ## MUST norms for the commander
 
 The commander (the main session, typically running on opus) MUST follow these rules. Users may call out violations.
@@ -52,12 +44,6 @@ The commander (the main session, typically running on opus) MUST follow these ru
   - Conversation with the user, planning, and result aggregation
 - **Be conscious of model selection.** Opus plans / aggregates / decides. Sonnet implements / reviews. Haiku explores. The `Agent` tool's `model` argument can override the subagent's frontmatter on a per-call basis; default to the frontmatter setting.
 - **Write delegate prompts as self-contained.** Subagents do not see the parent's history. Every prompt must include the background, the goal, which files are in scope, and the shape of the expected deliverable.
-
-## Subagent responsibilities
-
-- One task, one purpose
-- Run in an isolated context (parent history is not inherited)
-- Return a final text message to the commander
 
 ## Parallel vs sequential — the decision rule
 
