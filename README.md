@@ -34,12 +34,6 @@ Then, in each project where you want to use shireito, run:
 
 The setup skill detects the project root, asks where you want worktrees and which permission strategy you prefer, and merges the result into `.claude/settings.json`. It does **not** touch your other settings.
 
-## Why a setup skill instead of shipping permissions
-
-Subagents do not inherit the parent session's `permissions.allow`. Worktrees live at paths outside the original repo, so path-scoped rules like `Edit(/path/to/repo/**)` do not cover them. As a result, write-capable subagents (`implementer`, `debugger`) running in parallel hit permission prompts and effectively serialize.
-
-The right configuration depends on your project's absolute paths, so it cannot ship as a plugin file. The setup skill writes it once, project-specific.
-
 ## Quick start
 
 After install + setup, ask Claude in the project:
@@ -134,6 +128,12 @@ shireito/
 │   └── orchestrate/SKILL.md       # orchestration rules
 └── README.md
 ```
+
+## Why a setup skill instead of shipping permissions
+
+Subagents do not inherit the parent session's `permissions.allow`. Worktrees live at paths outside the original repo, so path-scoped rules like `Edit(/path/to/repo/**)` do not cover them. As a result, write-capable subagents (`implementer`, `debugger`) running in parallel hit permission prompts and effectively serialize.
+
+The right configuration depends on your project's absolute paths, so it cannot ship as a plugin file. The setup skill writes it once, project-specific.
 
 ## Attribution
 

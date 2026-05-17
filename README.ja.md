@@ -34,14 +34,6 @@ Claude Code 内で：
 
 setup スキルは、プロジェクトのルートを検出し、worktree の置き場所と permission 戦略をユーザーに確認した上で、`.claude/settings.json` にマージで書き込みます。**既存の他の設定は触りません**。
 
-## なぜ permission を直接同梱せず setup スキルにしたか
-
-- サブエージェントは親セッションの `permissions.allow` を**継承しません**
-- worktree はリポジトリ外のパスに作られるため、`Edit(/abs/path/to/repo/**)` のような path-scoped ルールでは**カバーされません**
-- 結果として、書き込み権限を持つサブエージェント（`implementer` / `debugger`）を並列で動かすと、各々が permission prompt を出して**実質シリアル化**してしまう
-
-正しい設定はプロジェクト絶対パスを含むため、プラグインファイルとして配ることができません。setup スキルがプロジェクトごとに 1 回それを書きます。
-
 ## クイックスタート
 
 インストール＋セットアップが済んだら、プロジェクト内で Claude に：
@@ -100,7 +92,7 @@ sonnet で深い分析、読み取り専用（編集はしない）。
 [メイン Claude Code セッション = 司令塔]
    ├─ Agent("explorer", "...")     ← 並列可（読み取りのみ）
    ├─ Agent("code-analyst", "...") ← 並列可（読み取りのみ）
-   └─ Agent("implementer", ".worktrees/feat-a", "...")  ← 順次 or 隔離して並列
+   └─ Agent("implementer", isolation: "worktree", "...")  ← 順次 or 隔離して並列
        ↓
    司令塔が結果を集約 → 人間にレポート
 ```
@@ -136,6 +128,14 @@ shireito/
 │   └── orchestrate/SKILL.md       # 運用ルール
 └── README.md / README.ja.md
 ```
+
+## なぜ permission を直接同梱せず setup スキルにしたか
+
+- サブエージェントは親セッションの `permissions.allow` を**継承しません**
+- worktree はリポジトリ外のパスに作られるため、`Edit(/abs/path/to/repo/**)` のような path-scoped ルールでは**カバーされません**
+- 結果として、書き込み権限を持つサブエージェント（`implementer` / `debugger`）を並列で動かすと、各々が permission prompt を出して**実質シリアル化**してしまう
+
+正しい設定はプロジェクト絶対パスを含むため、プラグインファイルとして配ることができません。setup スキルがプロジェクトごとに 1 回それを書きます。
 
 ## 出典・参照
 
