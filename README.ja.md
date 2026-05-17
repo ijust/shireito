@@ -58,6 +58,42 @@ setup スキルは、プロジェクトのルートを検出し、worktree の�
 
 どのサブエージェントを呼ぶか迷うときは、`/shireito:orchestrate` で判断ルールをコンテキストに読み込ませてください。
 
+## 使い方の例
+
+shireito をインストールしてプロジェクトで `/shireito:setup` を走らせた後、以下のプロンプトで使えます。ファイルパスは各自のコードベースに合わせて調整してください。
+
+### コードベースのマッピング（explorer）
+
+> explorer サブエージェントで、このコードベースを map して。各トップレベルディレクトリを1行で要約して。
+
+haiku で高速、メインコンテキストをファイル内容で汚さずに全体像を掴む。
+
+### 設計レビュー（code-analyst）
+
+> code-analyst で `src/auth.py` の設計を評価して。責務はきれいに分かれているか、変えるべき点はあるか。
+
+sonnet で深い分析、読み取り専用（編集はしない）。
+
+### 隔離 worktree での並列実装（implementer × N）— **真骨頂**
+
+> 2つの feature を `isolation: "worktree"` で並列実装して：
+> - Feature A: `cli.py` に `--format=json` を追加
+> - Feature B: `cli.py` に `--filter=<glob>` を追加
+
+司令塔が `implementer` サブエージェントを同時に 2 体起動。各々が自動作成された worktree で動くので、同じファイルを同時編集しても衝突しない。両方完了後、worktree diff をレビューして統合。**仕様駆動開発と真の並列性が出会う場所**。
+
+### 変更後のコードレビュー（code-reviewer）
+
+> code-reviewer で直近2 commit の差分をレビューして。セキュリティ、コード品質、エンジニアリング原則の観点で。
+
+設計上 read-only：問題を指摘するだけ、編集はしない。
+
+### 根本原因デバッグ（debugger）
+
+> `tests/test_foo.py::test_edge_case` が失敗している。debugger サブエージェントで根本原因を突き止めて最小修正を当てて。
+
+`debugger` は Edit 権限あり：根本原因、エビデンス、当てた修正、再発防止策の推奨をセットで返す。
+
 ## 司令塔パターンの全体像
 
 ```

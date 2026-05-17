@@ -56,6 +56,42 @@ The commander will create worktrees, dispatch one `implementer` per worktree, an
 
 If you're not sure when to use which subagent, run `/shireito:orchestrate` to load the decision rules into context.
 
+## Usage examples
+
+Concrete prompts to try once shireito is installed and `/shireito:setup` has been run in your project. Copy-paste and adjust the file paths to your codebase.
+
+### Mapping a codebase (explorer)
+
+> Use the explorer subagent to map this codebase. Summarize each top-level directory in one line.
+
+Fast haiku-powered overview without flooding your main context with file contents.
+
+### Architecture review (code-analyst)
+
+> Use code-analyst to evaluate the design of `src/auth.py`. Are responsibilities split cleanly? What would you change?
+
+Deep sonnet-powered analysis. Read-only — surfaces issues, does not edit.
+
+### Parallel implementation in isolated worktrees (implementer × N) — the killer use case
+
+> Implement two features in parallel, each with `isolation: "worktree"`:
+> - Feature A: add `--format=json` to `cli.py`
+> - Feature B: add `--filter=<glob>` to `cli.py`
+
+The commander dispatches two `implementer` subagents at once. Each runs in its own auto-created worktree, so editing the same file from both does not conflict. After both finish, review the worktree diffs and integrate. **This is where spec-driven development meets true parallelism.**
+
+### Post-change code review (code-reviewer)
+
+> Use code-reviewer on the last 2 commits. Check security, code quality, and engineering principles.
+
+Read-only by design: never edits, only flags.
+
+### Root-cause debugging (debugger)
+
+> The test in `tests/test_foo.py::test_edge_case` fails. Use the debugger subagent to find the root cause and apply the minimal fix.
+
+`debugger` has Edit access for the fix and reports root cause, evidence, the fix applied, and a prevention recommendation.
+
 ## The commander pattern in one diagram
 
 ```

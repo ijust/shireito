@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "shireito",
-      "source": ".",
+      "source": "./",
       "description": "Commander (司令塔) pattern for Claude Code: 5 specialized subagents plus orchestration and setup skills."
     }
   ]
