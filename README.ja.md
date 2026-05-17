@@ -48,7 +48,20 @@ setup スキルは、プロジェクトのルートを検出し、worktree の�
 
 司令塔が worktree を作成し、1 worktree につき 1 つの `implementer` を割り当て、後で統合します。
 
-どのサブエージェントを呼ぶか迷うときは、`/shireito:orchestrate` で判断ルールをコンテキストに読み込ませてください。
+### `/shireito:orchestrate` を自分で invoke するタイミング
+
+`orchestrate` skill は auto-invocable — 司令塔が「multi-subagent の planning」と認識すれば自動で読み込まれることがあります。ただし **auto-invocation は保証されません**。モデルが description マッチで判断するため、見落とすこともあります。以下のケースでは自分で明示的に呼んでください：
+
+- `implementer` サブエージェントを worktree で並列実行する直前
+- permission prompt が出て並列 subagent が止まっているとき（permission 継承の罠の可能性）
+- 方針を決める前に、判断ルール全体をコンテキストに先入れしておきたいとき
+- 司令塔パターンに不慣れで、運用ルールを一通り読みたいとき
+
+```
+/shireito:orchestrate
+```
+
+明示呼び出しならルールロードは確実。自動発火に頼ると外れることがあります。
 
 ## 使い方の例
 

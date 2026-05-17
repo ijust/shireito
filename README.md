@@ -48,7 +48,20 @@ For implementation work that needs parallelism:
 
 The commander will create worktrees, dispatch one `implementer` per worktree, and integrate after.
 
-If you're not sure when to use which subagent, run `/shireito:orchestrate` to load the decision rules into context.
+### When to invoke `/shireito:orchestrate` yourself
+
+The `orchestrate` skill is auto-invocable — the commander may load it on its own when it recognizes a multi-subagent planning task — but **auto-invocation is not guaranteed**. The model decides based on description match, and the decision can miss. Invoke it yourself when:
+
+- You're about to spawn parallel `implementer` subagents in separate worktrees
+- Permission prompts are stalling parallel subagent runs (likely the permission inheritance trap)
+- You want the full decision rules in context upfront, before committing to an approach
+- You're new to the commander pattern and want to skim the operational rules
+
+```
+/shireito:orchestrate
+```
+
+Explicit invocation guarantees the rules are loaded; auto-invocation does not.
 
 ## Usage examples
 
