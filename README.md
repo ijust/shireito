@@ -84,6 +84,10 @@ shireito/
 └── README.md
 ```
 
+## Attribution
+
+The subagent set in `agents/` was originally inspired by the example subagents in Anthropic's official Claude Code documentation (https://docs.claude.com/en/docs/claude-code/sub-agents), particularly the `code-reviewer` and `debugger` patterns. The definitions in this repository have been substantially restructured and extended for the commander-pattern orchestration this plugin distributes. The `orchestrate` and `setup` skills, the 5-subagent curation, and the overall plugin structure are original.
+
 ## License
 
 MIT

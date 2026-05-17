@@ -86,6 +86,10 @@ shireito/
 └── README.md / README.ja.md
 ```
 
+## 出典・参照
+
+`agents/` の subagent セットは、当初 Anthropic 公式の Claude Code ドキュメント（https://docs.claude.com/en/docs/claude-code/sub-agents）の example subagents、特に `code-reviewer` と `debugger` のパターンに着想を得ました。本リポジトリの定義はそこから司令塔パターン配布用に大幅に再構成・拡張したものです。`orchestrate` / `setup` スキル、5 subagent のキュレーション、プラグイン全体構成は本プラグイン側で独自に組み立てています。
+
 ## ライセンス
 
 MIT
