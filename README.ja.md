@@ -24,6 +24,8 @@ Claude Code 内で：
 /plugin install shireito
 ```
 
+`/plugin install` でスコープを聞かれます。**User** を選ぶと開く全プロジェクトで shireito が使えるようになります（個人開発の推奨）。チームで共有したい（`.claude/` を git で配りたい）場合は **Project** を選択。**Local** はほぼ選ぶ場面なし。
+
 プロジェクトごとに 1 回：
 
 ```

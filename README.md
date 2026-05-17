@@ -24,7 +24,9 @@ In Claude Code:
 /plugin install shireito
 ```
 
-Then, in each project where you want to use shireito:
+When `/plugin install` prompts for a scope, choose **User** to make shireito available in every project you open. Pick **Project** if you want the install committed to this repo's `.claude/` so your team gets it via git. **Local** is rarely the right choice.
+
+Then, in each project where you want to use shireito, run:
 
 ```
 /shireito:setup
