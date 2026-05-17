@@ -6,7 +6,7 @@ allowed-tools: Read, Grep, Glob, Bash
 
 # Shireito (司令塔) Pattern
 
-The main Claude Code session is the **commander** (司令塔). It delegates focused tasks to the 5 specialized subagents via the `Agent` tool and aggregates their results. The human only talks to the commander.
+The main Claude Code session is the **commander** (司令塔). It delegates focused tasks to the 5 specialized subagents via the `Agent` tool and aggregates their text results back into the main session. For worktree-level changes (e.g., parallel `implementer` runs in isolated worktrees), the human reviews each worktree and merges manually.
 
 ```
 [Main session: commander]

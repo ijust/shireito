@@ -46,7 +46,7 @@ setup スキルは、プロジェクトのルートを検出し、worktree の�
 
 > feature A と feature B を並列で実装して。implementer サブエージェントを別の worktree で動かして。
 
-司令塔が worktree を作成し、1 worktree につき 1 つの `implementer` を割り当て、後で統合します。
+司令塔が worktree を作成し、1 worktree につき 1 つの `implementer` を割り当てます。**両方完了後、各 worktree の差分を確認して main に merge するのはあなたの作業です。**
 
 ### `/shireito:orchestrate` を自分で invoke するタイミング
 
@@ -110,7 +110,7 @@ sonnet で深い分析、読み取り専用（編集はしない）。
    司令塔が結果を集約 → 人間にレポート
 ```
 
-人間が話しかける相手は**司令塔だけ**。何を委譲するか、いつ並列にするか、どう統合するかは司令塔が判断します。
+司令塔がタスクの分解・並列/順次の判断・subagent からのテキスト結果の集約を担当します。**worktree レベルの変更（並列 implementer など）は、各 worktree を人間が確認・統合します。**
 
 ## なぜこの組み合わせが速いのか（仕様駆動開発 × worktree × subagent）
 

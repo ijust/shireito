@@ -46,7 +46,7 @@ For implementation work that needs parallelism:
 
 > Implement feature A and feature B in parallel. Use the implementer subagent in separate worktrees.
 
-The commander will create worktrees, dispatch one `implementer` per worktree, and integrate after.
+The commander will create worktrees and dispatch one `implementer` per worktree. After both finish, **you review the diffs in each worktree and merge them yourself.**
 
 ### When to invoke `/shireito:orchestrate` yourself
 
@@ -110,7 +110,7 @@ Read-only by design: never edits, only flags.
    commander aggregates and reports to the human
 ```
 
-The human only talks to the commander. The commander figures out what to delegate, when to run in parallel, and how to integrate results.
+The commander handles task decomposition, parallel/sequential decisions, and aggregating text results from subagents. **For worktree-level changes (e.g., parallel `implementer` runs), you review the diffs in each worktree and merge them yourself.**
 
 ## Why this combination is fast (spec-driven + worktree + subagents)
 
