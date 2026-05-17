@@ -37,6 +37,20 @@ The main Claude Code session is the **commander** (司令塔). It delegates focu
 - Aggregate subagent results
 - Report to the user
 
+## MUST norms for the commander
+
+The commander (the main session, typically running on opus) MUST follow these rules. Users may call out violations.
+
+- **Delegate all code changes to a subagent.** The commander never invokes `Edit` / `Write` / `NotebookEdit` directly. Use `implementer` (sonnet) for implementation, `debugger` (sonnet) when the change is paired with investigation.
+- **Delegate broad exploration, design review, and code review the same way.** Searches that span more than 1–2 files go to `explorer` (haiku). Design evaluation goes to `code-analyst` (sonnet). Reviewing a diff goes to `code-reviewer` (sonnet). The commander running `Grep` / `Read` directly is reserved for targeted 1–2 file checks.
+- **Exceptions the commander handles directly:**
+  - 1–2 line trivial changes (typos, comments) where subagent startup cost outweighs the work
+  - Targeted reads needed to compose a delegate prompt
+  - State checks: `git status`, `git diff`, `git log`, and similar
+  - Conversation with the user, planning, and result aggregation
+- **Be conscious of model selection.** Opus plans / aggregates / decides. Sonnet implements / reviews. Haiku explores. The `Agent` tool's `model` argument can override the subagent's frontmatter on a per-call basis; default to the frontmatter setting.
+- **Write delegate prompts as self-contained.** Subagents do not see the parent's history. Every prompt must include the background, the goal, which files are in scope, and the shape of the expected deliverable.
+
 ## Subagent responsibilities
 
 - One task, one purpose
