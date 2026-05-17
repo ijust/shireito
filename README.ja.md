@@ -161,6 +161,14 @@ shireito/
 
 正しい設定はプロジェクト絶対パスを含むため、プラグインファイルとして配ることができません。setup スキルがプロジェクトごとに 1 回それを書きます。
 
+## リリース手順
+
+install ユーザーに届けるべき変更 — skill の追加・修正、agent の追加・修正、orchestration ルールの挙動を変える編集 — を加えるときは、**同じ commit（または push 前）で `.claude-plugin/plugin.json` の `version` を bump** してください。bump し忘れると、`/plugin marketplace update` でカタログが最新になっても `/plugin update shireito` が「already at the latest version」で短絡してしまい、install 済みクライアントは古い版を黙って使い続けます。
+
+README のみ・cosmetic・typo の変更には bump 不要。
+
+バージョン体系：semver。fix や軽微な追加は patch（`0.1.x`）、新しい skill/agent や大きな挙動変更は minor（`0.x.0`）。
+
 ## 出典・参照
 
 `agents/` の subagent セットは、当初 Anthropic 公式の Claude Code ドキュメント（https://docs.claude.com/en/docs/claude-code/sub-agents）の example subagents、特に `code-reviewer` と `debugger` のパターンに着想を得ました。本リポジトリの定義はそこから司令塔パターン配布用に大幅に再構成・拡張したものです。`orchestrate` / `setup` スキル、5 subagent のキュレーション、プラグイン全体構成は本プラグイン側で独自に組み立てています。

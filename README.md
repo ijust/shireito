@@ -159,6 +159,14 @@ Subagents do not inherit the parent session's `permissions.allow`. Worktrees liv
 
 The right configuration depends on your project's absolute paths, so it cannot ship as a plugin file. The setup skill writes it once, project-specific.
 
+## Releasing
+
+When you change something installed users should pick up — adding or modifying a skill, adding or modifying an agent, behavior-affecting edits to orchestration rules — bump `version` in `.claude-plugin/plugin.json` in the same commit (or before pushing). Without a bump, `/plugin update shireito` short-circuits with "already at the latest version" even after `/plugin marketplace update` has refreshed the catalog, and installed clients silently keep running the old code.
+
+README-only, cosmetic, or typo changes don't need a bump.
+
+Version style: semver. Patch (`0.1.x`) for fixes and small additions, minor (`0.x.0`) for new skills/agents or larger behavior changes.
+
 ## Attribution
 
 The subagent set in `agents/` was originally inspired by the example subagents in Anthropic's official Claude Code documentation (https://docs.claude.com/en/docs/claude-code/sub-agents), particularly the `code-reviewer` and `debugger` patterns. The definitions in this repository have been substantially restructured and extended for the commander-pattern orchestration this plugin distributes. The `orchestrate` and `setup` skills, the 5-subagent curation, and the overall plugin structure are original.
