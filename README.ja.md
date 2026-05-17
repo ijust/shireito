@@ -46,7 +46,7 @@ setup スキルは、プロジェクトのルートを検出し、worktree の�
 
 > feature A と feature B を並列で実装して。implementer サブエージェントを別の worktree で動かして。
 
-司令塔が worktree を作成し、1 worktree につき 1 つの `implementer` を割り当てます。**両方完了後、各 worktree の差分を確認して main に merge するのはあなたの作業です。**
+司令塔が worktree を作成し、1 worktree につき 1 つの `implementer` を割り当てます。**両方完了後、各 worktree の差分確認と main への merge は人間の手作業として残ります。**
 
 ### `/shireito:orchestrate` を自分で invoke するタイミング
 
