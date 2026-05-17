@@ -69,6 +69,19 @@ If you're not sure when to use which subagent, run `/shireito:orchestrate` to lo
 
 The human only talks to the commander. The commander figures out what to delegate, when to run in parallel, and how to integrate results.
 
+## Why this combination is fast (spec-driven + worktree + subagents)
+
+Spec-driven development (Kiro, cc-sdd, or any `.kiro/specs/<feature>/{requirements,design,tasks}.md` flavor) splits a feature into discrete, well-defined work units before any code is written. With shireito and git worktrees, the commander dispatches several of those units to parallel `implementer` subagents at once, each in its own isolated worktree.
+
+The wins:
+
+- **N features → N parallel implementers.** Throughput scales with how many independent specs you have ready, not with how fast one person can type.
+- **No file-collision serialization.** Subagents in separate worktrees can edit the same files without conflict; conflicts get resolved at integration time, not blocked at edit time.
+- **Reviews and debugging also run in parallel.** Spin up one `code-reviewer` per worktree, or one `debugger` that owns a failing worktree without touching the others.
+- **Specs survive across sessions.** Months later, a fresh subagent reads the same spec and the implementation context is restored. No re-explaining the requirements.
+
+The combination turns spec-driven development from "writing specs is overhead" into "writing specs unlocks parallelism." The commander only needs enough independent specs queued up to keep N implementer worktrees busy.
+
 ## Files
 
 ```
