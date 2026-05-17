@@ -8,6 +8,8 @@ allowed-tools: Read, Grep, Glob, Bash
 
 The main Claude Code session is the **commander** (司令塔). It delegates focused tasks to the 5 specialized subagents via the `Agent` tool and aggregates their text results back into the main session. For worktree-level changes (e.g., parallel `implementer` runs in isolated worktrees), the human reviews each worktree and merges manually.
 
+> Scope: this skill covers the `Agent` subagent system inside a single Claude Code session. The experimental multi-session feature gated by `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is a different mechanism and not in scope here.
+
 ```
 [Main session: commander]
    ├─ Agent("explorer", "...")     ← parallel-safe
@@ -63,6 +65,7 @@ The commander (the main session, typically running on opus) MUST follow these ru
 - Independent read-only investigations (explorer + code-analyst + code-reviewer on different angles)
 - Backend vs frontend exploration
 - Multiple independent review findings, each in its own subagent
+- **Long-running prep paired with its consumer.** If a downstream step (verification data pulls, fixture builds, dataset snapshots, build warmup) sits on the critical path, fire it as a background subagent in the **same turn** you start the work that will consume it. Don't serialize "implement → then realize we need data → spawn prep". The implementer can finish while the prep is still running; integrate when both return.
 
 **Sequential (chain them)**:
 - design → implement → test
@@ -124,6 +127,15 @@ Fixes (any one is enough; pick based on your security posture):
 | `auto` permission mode globally | Classifier decides per-action | Broadest; review with caution |
 
 **Always dry-run with 1 subagent first** to confirm no permission prompts before going to N parallel.
+
+### Bash compound-command pitfall
+
+Read-only commands can still trigger permission prompts when your allowlist uses `Bash(<cmd> *)` patterns but you compose commands with `cd`:
+
+- `cd <dir> && git status` does **not** match `Bash(git *)` — the prefix is `cd`, not `git`.
+- Use the tool's own directory flag instead: `git -C <dir> status`, `npm --prefix <dir> ...`, `docker --context <name> ...`.
+
+Hits commander and subagents alike. The `fewer-permission-prompts` skill scans recent transcripts and proposes the allowlist patterns that match what you actually ran.
 
 ## Auto-delegation hints
 
